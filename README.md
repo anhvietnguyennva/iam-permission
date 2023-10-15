@@ -6,7 +6,7 @@ This is service for permission and access control management
 ## Setting
 ### Dependencies
 ``` 
-$ go mod download
+$ go mod tidy
 $ go mod vendor
 ```
 

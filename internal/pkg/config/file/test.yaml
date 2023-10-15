@@ -1,0 +1,19 @@
+Http:
+  BindAddress: ":8080"
+  Mode: release #(debug,release,test) set release to skip log
+Db:
+  Host: localhost
+  Port: 6432
+  DBName: iam_permission
+  User: iam_permission
+  Password: 123456
+  ConnLifeTime: 300
+  MaxIdleConns: 100
+  MaxOpenConns: 200
+  LogLevel: 1
+Redis:
+  Addresses: :7379
+  Password:
+  MasterName:
+Common:
+  LogLevel: 10

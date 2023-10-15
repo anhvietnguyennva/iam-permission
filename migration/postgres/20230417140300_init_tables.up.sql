@@ -1,0 +1,92 @@
+CREATE TABLE services
+(
+    id          varchar(50) PRIMARY KEY,
+    namespace   varchar(255) NOT NULL, -- does not allow to be updated
+    description varchar(255),
+    created_by  varchar(255),
+    updated_by  varchar(255),
+    created_at  bigint,
+    updated_at  bigint,
+    UNIQUE (namespace)
+);
+
+CREATE TABLE relation_definitions
+(
+    id          varchar(50) PRIMARY KEY,
+    service_id  varchar(50) REFERENCES services (id) ON DELETE CASCADE, -- does not allow to be updated
+    namespace   varchar(255) NOT NULL, -- does not allow to be updated
+    relation    varchar(255) NOT NULL, -- does not allow to be updated
+    description varchar(255),
+    created_by  varchar(255),
+    updated_by  varchar(255),
+    created_at  bigint,
+    updated_at  bigint,
+    UNIQUE (service_id, relation)
+);
+
+CREATE TABLE relation_configurations
+(
+    id                            varchar(50) PRIMARY KEY,
+    service_id                    varchar(50) REFERENCES services (id) ON DELETE CASCADE, -- does not allow to be updated
+    namespace                     varchar(255) NOT NULL, -- does not allow to be updated
+    parent_relation_definition_id varchar(255) REFERENCES relation_definitions (id) ON DELETE CASCADE,
+    parent_relation               varchar(255) NOT NULL,
+    child_relation_definition_id  varchar(255) REFERENCES relation_definitions (id) ON DELETE CASCADE,
+    child_relation                varchar(255) NOT NULL,
+    created_by                    varchar(255),
+    updated_by                    varchar(255),
+    created_at                    bigint,
+    updated_at                    bigint,
+    UNIQUE (service_id, parent_relation_definition_id, child_relation_definition_id)
+);
+
+CREATE TABLE subject_relation_tuples
+(
+    id                     varchar(50) PRIMARY KEY,
+    service_id             varchar(50) REFERENCES services (id) ON DELETE CASCADE, -- does not allow to be updated
+    relation_definition_id varchar(50) REFERENCES relation_definitions (id) ON DELETE CASCADE,
+    namespace              varchar(255) NOT NULL, -- does not allow to be updated
+    object                 varchar(255) NOT NULL,
+    relation               varchar(255) NOT NULL,
+    subject_id             varchar(255) NOT NULL, -- IAM Identity ID or IAM Client ID in case of Client Credentials
+    created_by             varchar(255),
+    updated_by             varchar(255),
+    created_at             bigint,
+    updated_at             bigint,
+    UNIQUE (namespace, object, relation, subject_id)
+);
+
+CREATE TABLE subject_sets
+(
+    id                     varchar(50) PRIMARY KEY,
+    service_id             varchar(50) REFERENCES services (id) ON DELETE CASCADE,
+    relation_definition_id varchar(50) REFERENCES relation_definitions (id) ON DELETE CASCADE,
+    namespace              varchar(255) NOT NULL,
+    object                 varchar(255) NOT NULL,
+    relation               varchar(255) NOT NULL,
+    description            varchar(500),
+    created_by             varchar(255),
+    updated_by             varchar(255),
+    created_at             bigint,
+    updated_at             bigint,
+    UNIQUE (namespace, object, relation)
+);
+
+CREATE TABLE subject_set_relation_tuples
+(
+    id                     varchar(50) PRIMARY KEY,
+    service_id             varchar(50) REFERENCES services (id) ON DELETE CASCADE,
+    subject_set_id         varchar(50) REFERENCES subject_sets (id) ON DELETE CASCADE,
+    relation_definition_id varchar(50) REFERENCES relation_definitions (id) ON DELETE CASCADE,
+    namespace              varchar(255) NOT NULL,
+    object                 varchar(255) NOT NULL,
+    relation               varchar(255) NOT NULL,
+    subject_set_namespace  varchar(255) NOT NULL,
+    subject_set_object     varchar(255) NOT NULL,
+    subject_set_relation   varchar(255) NOT NULL,
+    created_by             varchar(255),
+    updated_by             varchar(255),
+    created_at             bigint,
+    updated_at             bigint,
+    UNIQUE (namespace, object, relation, subject_set_namespace, subject_set_object, subject_set_relation)
+);

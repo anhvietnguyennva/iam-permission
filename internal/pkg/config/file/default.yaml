@@ -1,0 +1,19 @@
+Http:
+  BindAddress: ":8080"
+  Mode: debug #(debug,release,test)
+Db:
+  Host: localhost
+  Port: 5432
+  DBName: iam_permission
+  User: iam_permission
+  Password: 123456
+  ConnLifeTime: 300
+  MaxIdleConns: 100
+  MaxOpenConns: 200
+  LogLevel: 1
+Redis:
+  Addresses: :6379
+  Password:
+  MasterName:
+Common:
+  LogLevel: -1 #debug

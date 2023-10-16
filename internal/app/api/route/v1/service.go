@@ -2,10 +2,13 @@ package v1
 
 import (
 	errt "github.com/anhvietnguyennva/go-error/pkg/transformer"
+	iamentity "github.com/anhvietnguyennva/iam-go-sdk/pkg/oauth/entity"
 	"github.com/gin-gonic/gin"
 
 	"iam-permission/internal/app/api/dto"
+	"iam-permission/internal/app/api/middleware"
 	"iam-permission/internal/app/api/service"
+	"iam-permission/internal/pkg/constant"
 	"iam-permission/pkg/context"
 )
 
@@ -20,7 +23,7 @@ func newServiceAPI() *serviceAPI {
 }
 
 func (a *serviceAPI) SetupAdminRoute(rg *gin.RouterGroup) {
-	rg.POST("", a.createService)
+	rg.POST("", middleware.RequireBearerAuthorizationJWT, a.createService)
 }
 
 func (a *serviceAPI) createService(c *gin.Context) {
@@ -33,7 +36,11 @@ func (a *serviceAPI) createService(c *gin.Context) {
 		return
 	}
 
-	s, domainErr := a.serviceService.Create(ctx, req.ToValueObject())
+	accessToken, _ := c.Value(constant.CtxAccessTokenKey).(iamentity.AccessToken)
+
+	voReq := req.ToValueObject()
+	voReq.CreatedBy = accessToken.Subject
+	s, domainErr := a.serviceService.Create(ctx, voReq)
 	if domainErr != nil {
 		apiErr := errt.RestTransformerInstance().DomainErrToRestAPIErr(domainErr)
 		dto.RespondError(c, apiErr)

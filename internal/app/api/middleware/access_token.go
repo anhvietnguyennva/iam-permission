@@ -2,7 +2,7 @@ package middleware
 
 import (
 	"github.com/anhvietnguyennva/go-error/pkg/errors"
-	"github.com/anhvietnguyennva/iam-go-sdk/pkg/oauth/token/jwt"
+	sdk "github.com/anhvietnguyennva/iam-go-sdk"
 	"github.com/gin-gonic/gin"
 
 	"iam-permission/internal/app/api/dto"
@@ -11,7 +11,7 @@ import (
 
 func RequireBearerAuthorizationJWT(c *gin.Context) {
 	authorization := c.GetHeader("Authorization")
-	token, err := jwt.ParseBearer(authorization)
+	token, err := sdk.SDK().ParseBearerJWT(authorization)
 	if err != nil {
 		dto.RespondError(c, errors.NewRestAPIErrUnauthenticated(err))
 		return

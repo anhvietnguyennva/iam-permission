@@ -2,7 +2,7 @@ package v1
 
 import (
 	errt "github.com/anhvietnguyennva/go-error/pkg/transformer"
-	iamentity "github.com/anhvietnguyennva/iam-go-sdk/pkg/oauth/entity"
+	oentity "github.com/anhvietnguyennva/iam-go-sdk/oauth/entity"
 	"github.com/gin-gonic/gin"
 
 	"iam-permission/internal/app/api/dto"
@@ -36,7 +36,7 @@ func (a *serviceAPI) createService(c *gin.Context) {
 		return
 	}
 
-	accessToken, _ := c.Value(constant.CtxAccessTokenKey).(iamentity.AccessToken)
+	accessToken, _ := c.Value(constant.CtxAccessTokenKey).(oentity.AccessToken)
 
 	voReq := req.ToValueObject()
 	voReq.CreatedBy = accessToken.Subject

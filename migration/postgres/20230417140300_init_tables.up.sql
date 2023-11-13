@@ -8,7 +8,8 @@ CREATE TABLE services
     created_at  bigint,
     updated_at  bigint
 );
-CREATE UNIQUE INDEX services_namespace ON services (LOWER(namespace));
+CREATE UNIQUE INDEX services_unique_namespace ON services (LOWER(namespace));
+CREATE INDEX services_namespace ON services (namespace);
 
 CREATE TABLE relation_definitions
 (
@@ -22,7 +23,7 @@ CREATE TABLE relation_definitions
     created_at  bigint,
     updated_at  bigint
 );
-CREATE UNIQUE INDEX relation_definitions_service_id_relation ON relation_definitions (service_id, LOWER(relation));
+CREATE UNIQUE INDEX relation_definitions_unique_service_id_relation ON relation_definitions (service_id, LOWER(relation));
 
 CREATE TABLE relation_configurations
 (
@@ -54,7 +55,7 @@ CREATE TABLE subject_relation_tuples
     created_at             bigint,
     updated_at             bigint
 );
-CREATE UNIQUE INDEX subject_relation_tuples_namespace_object_relation_subject_id ON subject_relation_tuples (LOWER(namespace), LOWER(object), LOWER(relation), subject_id);
+CREATE UNIQUE INDEX subject_relation_tuples_unique_namespace_object_relation_subject_id ON subject_relation_tuples (LOWER(namespace), LOWER(object), LOWER(relation), subject_id);
 
 CREATE TABLE subject_sets
 (
@@ -70,7 +71,7 @@ CREATE TABLE subject_sets
     created_at             bigint,
     updated_at             bigint
 );
-CREATE UNIQUE INDEX subject_sets_namespace_object_relation ON subject_sets (LOWER(namespace), LOWER(object), LOWER(relation));
+CREATE UNIQUE INDEX subject_sets_unique_namespace_object_relation ON subject_sets (LOWER(namespace), LOWER(object), LOWER(relation));
 
 CREATE TABLE subject_set_relation_tuples
 (
@@ -89,4 +90,4 @@ CREATE TABLE subject_set_relation_tuples
     created_at             bigint,
     updated_at             bigint
 );
-CREATE UNIQUE INDEX subject_set_relation_tuples_namespace_object_relation_subject_set_namespace_subject_set_object_subject_set_relation ON subject_set_relation_tuples (LOWER(namespace), LOWER(object), LOWER(relation), LOWER(subject_set_namespace), LOWER(subject_set_object), LOWER(subject_set_relation));
+CREATE UNIQUE INDEX subject_set_relation_tuples_unique_namespace_object_relation_subject_set_namespace_subject_set_object_subject_set_relation ON subject_set_relation_tuples (LOWER(namespace), LOWER(object), LOWER(relation), LOWER(subject_set_namespace), LOWER(subject_set_object), LOWER(subject_set_relation));

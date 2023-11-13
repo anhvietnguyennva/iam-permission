@@ -6,19 +6,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type healthApi struct{}
+type HealthAPI struct{}
 
-func newHealthApi() *healthApi {
-	return &healthApi{}
+func newHealthAPI() *HealthAPI {
+	return &HealthAPI{}
 }
 
-func (a *healthApi) setupRoute(rg *gin.RouterGroup) {
-	rg.GET("", func(c *gin.Context) {
-		c.AbortWithStatusJSON(http.StatusOK, "OK")
-	})
-}
-
-func (a *healthApi) setupAdminRoute(rg *gin.RouterGroup) {
+func (a *HealthAPI) SetupRoute(rg *gin.RouterGroup) {
 	rg.GET("", func(c *gin.Context) {
 		c.AbortWithStatusJSON(http.StatusOK, "OK")
 	})

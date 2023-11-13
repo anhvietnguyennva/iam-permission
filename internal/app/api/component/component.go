@@ -1,8 +1,10 @@
 package component
 
 import (
+	"iam-permission/internal/app/api/service"
 	"iam-permission/internal/pkg/db"
 	"iam-permission/internal/pkg/redis"
+	repo "iam-permission/internal/pkg/repository"
 	"iam-permission/internal/pkg/util/logger"
 )
 
@@ -29,8 +31,10 @@ func InitComponents() error {
 	}
 
 	// Repo
+	repo.InitServiceRepository(db.Instance())
 
 	// Service
+	service.InitServiceService(repo.ServiceRepositoryInstance())
 
 	return nil
 }

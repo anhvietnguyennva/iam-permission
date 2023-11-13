@@ -36,15 +36,13 @@ func buildLogFields(c *gin.Context) (zapcore.Field, zapcore.Field) {
 }
 
 // Logger add a logger to gin context with metadata like traceID, etc.
-func Logger() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		traceIDField, apiField := buildLogFields(c)
-		l := logger.L().With(traceIDField).With(apiField)
+func Logger(c *gin.Context) {
+	traceIDField, apiField := buildLogFields(c)
+	l := logger.L().With(traceIDField).With(apiField)
 
-		c.Set(constant.CtxLoggerKey, l)
-		c.Set(constant.CtxTraceIDKey, traceIDField.String)
+	c.Set(constant.CtxLoggerKey, l)
+	c.Set(constant.CtxTraceIDKey, traceIDField.String)
 
-		// Process request
-		c.Next()
-	}
+	// Process request
+	c.Next()
 }

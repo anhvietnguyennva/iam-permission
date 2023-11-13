@@ -12,7 +12,7 @@ func (suite *TestSuite) TestAPI_Healthcheck_Successfully() {
 
 	// call API
 	method := "GET"
-	endpoint := "/api/v1/health"
+	endpoint := "/health"
 	req, _ := http.NewRequest(method, endpoint, nil)
 	w := httptest.NewRecorder()
 	testPublicRouter.ServeHTTP(w, req)

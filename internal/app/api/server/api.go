@@ -11,15 +11,9 @@ type apiServer struct {
 	engine *gin.Engine
 }
 
-func NewAPIServer(admin bool) IRunner {
+func NewAPIServer(isAdmin bool) IRunner {
 	engine := newEngine()
-
-	if admin {
-		route.AddAdminRouterV1(engine)
-	} else {
-		route.AddPublicRouterV1(engine)
-	}
-
+	route.Register(engine, isAdmin)
 	return &apiServer{engine: engine}
 }
 

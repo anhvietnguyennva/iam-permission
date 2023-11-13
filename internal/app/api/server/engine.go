@@ -15,7 +15,7 @@ func newEngine() *gin.Engine {
 	newEngine := gin.New()
 	newEngine.Use(gin.LoggerWithWriter(gin.DefaultWriter, "/health"))
 	newEngine.Use(gin.Recovery())
-	newEngine.Use(middleware.Logger())
+	newEngine.Use(middleware.Logger)
 	setCORS(newEngine)
 
 	return newEngine

@@ -1,7 +1,8 @@
 package constant
 
 const (
-	CtxTraceIDKey    = "traceID"
-	CtxAPIRequestKey = "API"
-	CtxLoggerKey     = "logger"
+	CtxTraceIDKey     = "traceID"
+	CtxAPIRequestKey  = "API"
+	CtxLoggerKey      = "logger"
+	CtxAccessTokenKey = "accessToken"
 )

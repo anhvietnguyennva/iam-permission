@@ -44,8 +44,8 @@ github.com/Microsoft/go-winio v0.6.1 h1:9/kr64B9VUZrLm5YYwbGtUJnMgqWVOdUAXu6Migc
 github.com/Microsoft/go-winio v0.6.1/go.mod h1:LRdKpFKfdobln8UmuiYcKPot9D2v6svN5+sAH+4kjUM=
 github.com/anhvietnguyennva/go-error v1.0.2 h1:QoeI+r7BMLG8uK37EKUDCoVndO/c7BC+IzEhprw9MsA=
 github.com/anhvietnguyennva/go-error v1.0.2/go.mod h1:HRna9e1NwEDDTRYxdL2DQtJtiGTewu8Joq6o618hhHs=
-github.com/anhvietnguyennva/iam-go-sdk v0.0.1 h1:S6nYtpKOzcw5fyicTnLUm1PidvXPjJ7dhyrrWRCHcrI=
-github.com/anhvietnguyennva/iam-go-sdk v0.0.1/go.mod h1:UmhnCsOECjaPZ0rwo2NZfPKdjupekkOpC+hTShwuCgs=
+github.com/anhvietnguyennva/iam-go-sdk v0.0.3 h1:UubqEg92NknZ3jS9ooMuevUfNNFqOJppShfMJPjVRoQ=
+github.com/anhvietnguyennva/iam-go-sdk v0.0.3/go.mod h1:UmhnCsOECjaPZ0rwo2NZfPKdjupekkOpC+hTShwuCgs=
 github.com/benbjohnson/clock v1.3.0 h1:ip6w0uFQkncKQ979AypyG0ER7mqUSBdKLOgAle/AT8A=
 github.com/benbjohnson/clock v1.3.0/go.mod h1:J11/hYXuz8f4ySSvYwY0FKfm+ezbsZBKZxNJlLklBHA=
 github.com/bytedance/sonic v1.5.0/go.mod h1:ED5hyg4y6t3/9Ku1R6dU/4KyJ48DZ4jPhfY1O2AihPM=

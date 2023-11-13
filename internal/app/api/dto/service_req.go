@@ -1,6 +1,10 @@
 package dto
 
-import "iam-permission/internal/app/api/valueobject"
+import (
+	"strings"
+
+	"iam-permission/internal/app/api/valueobject"
+)
 
 type CreateServiceRequest struct {
 	Namespace   string `json:"namespace" binding:"required,max=255"`
@@ -9,7 +13,7 @@ type CreateServiceRequest struct {
 
 func (r *CreateServiceRequest) ToValueObject() *valueobject.CreateServiceRequest {
 	return &valueobject.CreateServiceRequest{
-		Namespace:   r.Namespace,
+		Namespace:   strings.ToLower(r.Namespace),
 		Description: r.Description,
 	}
 }

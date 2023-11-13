@@ -59,13 +59,13 @@ func (suite *TestSuite) SetupSuite() {
 	if testPublicRouter == nil {
 		gin.SetMode(config.Instance().Http.Mode)
 		testPublicRouter = gin.New()
-		route.AddPublicRouterV1(testPublicRouter)
+		route.Register(testPublicRouter, false)
 	}
 
 	if testAdminRouter == nil {
 		gin.SetMode(config.Instance().Http.Mode)
 		testAdminRouter = gin.New()
-		route.AddAdminRouterV1(testAdminRouter)
+		route.Register(testAdminRouter, true)
 	}
 }
 
@@ -88,6 +88,9 @@ func (suite *TestSuite) SetupTest() {
 	httpmock.Reset()
 
 	// postgres
+	if err := db.Instance().Exec("TRUNCATE TABLE services CASCADE").Error; err != nil {
+		panic(err)
+	}
 
 	// redis
 	redis.ClientInstance().FlushAll(context.Background())

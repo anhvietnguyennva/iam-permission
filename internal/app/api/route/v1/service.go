@@ -36,7 +36,7 @@ func (a *serviceAPI) createService(c *gin.Context) {
 		return
 	}
 
-	accessToken, _ := c.Value(constant.CtxAccessTokenKey).(oentity.AccessToken)
+	accessToken, _ := c.Value(constant.CtxAccessTokenKey).(*oentity.AccessToken)
 
 	voReq := req.ToValueObject()
 	voReq.CreatedBy = accessToken.Subject

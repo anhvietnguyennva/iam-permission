@@ -4,7 +4,7 @@ go 1.21
 
 require (
 	github.com/anhvietnguyennva/go-error v1.0.2
-	github.com/anhvietnguyennva/iam-go-sdk v0.0.1
+	github.com/anhvietnguyennva/iam-go-sdk v0.0.3
 	github.com/gin-contrib/cors v1.4.0
 	github.com/gin-gonic/gin v1.9.1
 	github.com/go-redis/redis/v8 v8.11.5

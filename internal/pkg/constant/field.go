@@ -1,5 +1,7 @@
 package constant
 
 const (
-	FieldService = "service"
+	FieldService               = "service"
+	FieldRelationDefinition    = "relationDefinition"
+	FieldRelationConfiguration = "relationConfiguration"
 )

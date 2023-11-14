@@ -56,6 +56,66 @@ func (suite *TestSuite) TestAPI_CreateService_Successfully() {
 	suite.EqualValues(mockSubject, service.CreatedBy)
 	suite.EqualValues(mockSubject, service.UpdatedBy)
 
+	var relationDefinitions []*postgres.RelationDefinition
+	db.Instance().Find(&relationDefinitions)
+	suite.EqualValues(4, len(relationDefinitions))
+
+	relationViewer := relationDefinitions[0]
+	suite.EqualValues(service.ID, relationViewer.ServiceID)
+	suite.EqualValues(service.Namespace, relationViewer.Namespace)
+	suite.EqualValues(constant.RelationViewer, relationViewer.Relation)
+	suite.EqualValues(constant.RelationViewer, relationViewer.Description)
+	suite.EqualValues(mockSubject, relationViewer.CreatedBy)
+	suite.EqualValues(mockSubject, relationViewer.UpdatedBy)
+
+	relationEditor := relationDefinitions[1]
+	suite.EqualValues(service.ID, relationEditor.ServiceID)
+	suite.EqualValues(service.Namespace, relationEditor.Namespace)
+	suite.EqualValues(constant.RelationEditor, relationEditor.Relation)
+	suite.EqualValues(constant.RelationEditor, relationEditor.Description)
+	suite.EqualValues(mockSubject, relationEditor.CreatedBy)
+	suite.EqualValues(mockSubject, relationEditor.UpdatedBy)
+
+	relationOwner := relationDefinitions[2]
+	suite.EqualValues(service.ID, relationOwner.ServiceID)
+	suite.EqualValues(service.Namespace, relationOwner.Namespace)
+	suite.EqualValues(constant.RelationOwner, relationOwner.Relation)
+	suite.EqualValues(constant.RelationOwner, relationOwner.Description)
+	suite.EqualValues(mockSubject, relationOwner.CreatedBy)
+	suite.EqualValues(mockSubject, relationOwner.UpdatedBy)
+
+	relationConsumer := relationDefinitions[3]
+	suite.EqualValues(service.ID, relationConsumer.ServiceID)
+	suite.EqualValues(service.Namespace, relationConsumer.Namespace)
+	suite.EqualValues(constant.RelationConsumer, relationConsumer.Relation)
+	suite.EqualValues(constant.RelationConsumer, relationConsumer.Description)
+	suite.EqualValues(mockSubject, relationConsumer.CreatedBy)
+	suite.EqualValues(mockSubject, relationConsumer.UpdatedBy)
+
+	var relationConfigurations []*postgres.RelationConfiguration
+	db.Instance().Find(&relationConfigurations)
+	suite.EqualValues(2, len(relationConfigurations))
+
+	configurationViewerEditor := relationConfigurations[0]
+	suite.EqualValues(service.ID, configurationViewerEditor.ServiceID)
+	suite.EqualValues(service.Namespace, configurationViewerEditor.Namespace)
+	suite.EqualValues(relationViewer.ID, configurationViewerEditor.ParentRelationDefinitionID)
+	suite.EqualValues(relationViewer.Relation, configurationViewerEditor.ParentRelation)
+	suite.EqualValues(relationEditor.ID, configurationViewerEditor.ChildRelationDefinitionID)
+	suite.EqualValues(relationEditor.Relation, configurationViewerEditor.ChildRelation)
+	suite.EqualValues(mockSubject, configurationViewerEditor.CreatedBy)
+	suite.EqualValues(mockSubject, configurationViewerEditor.UpdatedBy)
+
+	configurationEditorOwner := relationConfigurations[1]
+	suite.EqualValues(service.ID, configurationEditorOwner.ServiceID)
+	suite.EqualValues(service.Namespace, configurationEditorOwner.Namespace)
+	suite.EqualValues(relationEditor.ID, configurationEditorOwner.ParentRelationDefinitionID)
+	suite.EqualValues(relationEditor.Relation, configurationEditorOwner.ParentRelation)
+	suite.EqualValues(relationOwner.ID, configurationEditorOwner.ChildRelationDefinitionID)
+	suite.EqualValues(relationOwner.Relation, configurationEditorOwner.ChildRelation)
+	suite.EqualValues(mockSubject, configurationEditorOwner.CreatedBy)
+	suite.EqualValues(mockSubject, configurationEditorOwner.UpdatedBy)
+
 	// assert API response
 	suite.EqualValues(http.StatusOK, w.Code)
 	expectedResBody := map[string]any{

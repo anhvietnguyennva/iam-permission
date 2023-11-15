@@ -24,6 +24,7 @@ CREATE TABLE relation_definitions
     updated_at  bigint
 );
 CREATE UNIQUE INDEX relation_definitions_unique_service_id_relation ON relation_definitions (service_id, LOWER(relation));
+CREATE INDEX relation_definitions_namespace_relation ON relation_definitions (namespace, relation);
 
 CREATE TABLE relation_configurations
 (

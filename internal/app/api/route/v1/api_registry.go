@@ -17,4 +17,5 @@ func (a APIv1) RegisterAPIs(rg *gin.RouterGroup) {
 
 func (a APIv1) RegisterAdminAPIs(rg *gin.RouterGroup) {
 	common.RegisterAdminAPI(rg, newServiceAPI(), "/services")
+	common.RegisterAdminAPI(rg, newSubjectRelationTupleAPI(), "/subject-relation-tuples")
 }

@@ -240,7 +240,7 @@ func (suite *TestSuite) TestAPI_CreateService_Failed_3() {
 	method := "POST"
 	endpoint := "/admin/api/v1/services"
 	body := map[string]any{
-		"namespace":   "hbmijewagbtraqgvvaqgwcujcgwgjzxxmtpcunkgckynxrkkctwnefppqztjijrvhzyparajjcjvtfykfkvawgnyvibnbmrnifugmyqvygvyfyykvythgpxfupnjxknnaqdjqcrkqpwkdpqihkjzxrqbybedmfanuzcbttxcevyyiwmmiwuurdwqrbdqwtfajytjackbhtkdaavmhwhidwfimqxipvkjgwemyqmwcvrhthreicruwccjgdtbjzkr",
+		"namespace":   exceedLength255String,
 		"description": "iam service",
 	}
 	marshalledBody, _ := json.Marshal(body)
@@ -287,7 +287,7 @@ func (suite *TestSuite) TestAPI_CreateService_Failed_4() {
 	endpoint := "/admin/api/v1/services"
 	body := map[string]any{
 		"namespace":   "iam-permission",
-		"description": "hbmijewagbtraqgvvaqgwcujcgwgjzxxmtpcunkgckynxrkkctwnefppqztjijrvhzyparajjcjvtfykfkvawgnyvibnbmrnifugmyqvygvyfyykvythgpxfupnjxknnaqdjqcrkqpwkdpqihkjzxrqbybedmfanuzcbttxcevyyiwmmiwuurdwqrbdqwtfajytjackbhtkdaavmhwhidwfimqxipvkjgwemyqmwcvrhthreicruwccjgdtbjzkr",
+		"description": exceedLength255String,
 	}
 	marshalledBody, _ := json.Marshal(body)
 	req, _ := http.NewRequest(method, endpoint, bytes.NewReader(marshalledBody))

@@ -37,7 +37,7 @@ func SubjectRelationTupleRepositoryInstance() *SubjectRelationTupleRepository {
 func (r *SubjectRelationTupleRepository) Create(ctx context.Context, tuple *entity.SubjectRelationTuple) (*entity.SubjectRelationTuple, *errors.InfraError) {
 	model := new(postgres.SubjectRelationTuple).FromEntity(tuple)
 
-	if err := r.db.WithContext(ctx).Create(&model).Error; err != nil {
+	if err := r.db.WithContext(ctx).Create(model).Error; err != nil {
 		infraErr := errors.NewInfraErrorDBInsert(err, constant.FieldSubjectRelationTuple)
 		if strings.Contains(err.Error(), "duplicate key value violates unique constraint") {
 			infraErr = errors.NewInfraErrorDBDuplicatedKey(err, constant.FieldSubjectRelationTuple)

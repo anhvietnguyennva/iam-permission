@@ -8,6 +8,6 @@ import (
 	"iam-permission/internal/pkg/entity"
 )
 
-type IRelationDefinition interface {
+type IRelationDefinitionRepository interface {
 	GetByNamespaceAndRelation(ctx context.Context, namespace string, relation string) (*entity.RelationDefinition, *errors.InfraError)
 }

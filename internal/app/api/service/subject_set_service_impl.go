@@ -12,35 +12,36 @@ import (
 	repo "iam-permission/internal/pkg/repository"
 )
 
-type SubjectRelationTupleService struct {
-	serviceRepo              repo.IServiceRepository
-	relationDefinitionRepo   repo.IRelationDefinitionRepository
-	subjectRelationTupleRepo repo.ISubjectRelationTupleRepository
+type SubjectSetService struct {
+	serviceRepo            repo.IServiceRepository
+	relationDefinitionRepo repo.IRelationDefinitionRepository
+	subjectSetRepo         repo.ISubjectSetRepository
 }
 
-var subjectRelationTupleService *SubjectRelationTupleService
+var subjectSetService *SubjectSetService
 
-func InitSubjectRelationTupleService(
+func InitSubjectSetService(
 	serviceRepo repo.IServiceRepository,
 	relationDefinitionRepo repo.IRelationDefinitionRepository,
-	subjectRelationTupleRepository repo.ISubjectRelationTupleRepository,
+	subjectSetRepo repo.ISubjectSetRepository,
 ) {
 	lock.InitComponentLock.Lock()
 	defer lock.InitComponentLock.Unlock()
-	if subjectRelationTupleService == nil {
-		subjectRelationTupleService = &SubjectRelationTupleService{
-			serviceRepo:              serviceRepo,
-			relationDefinitionRepo:   relationDefinitionRepo,
-			subjectRelationTupleRepo: subjectRelationTupleRepository,
+
+	if subjectSetService == nil {
+		subjectSetService = &SubjectSetService{
+			serviceRepo:            serviceRepo,
+			relationDefinitionRepo: relationDefinitionRepo,
+			subjectSetRepo:         subjectSetRepo,
 		}
 	}
 }
 
-func SubjectRelationTupleServiceInstance() *SubjectRelationTupleService {
-	return subjectRelationTupleService
+func SubjectSetServiceInstance() *SubjectSetService {
+	return subjectSetService
 }
 
-func (s *SubjectRelationTupleService) Create(ctx context.Context, req *valueobject.CreateSubjectRelationTupleReq) (*entity.SubjectRelationTuple, *errors.DomainError) {
+func (s *SubjectSetService) Create(ctx context.Context, req *valueobject.CreateSubjectSetReq) (*entity.SubjectSet, *errors.DomainError) {
 	// get service
 	service, infraErr := s.serviceRepo.GetByNamespace(ctx, req.Namespace)
 	if infraErr != nil {
@@ -54,22 +55,22 @@ func (s *SubjectRelationTupleService) Create(ctx context.Context, req *valueobje
 	}
 
 	// create
-	tuple := &entity.SubjectRelationTuple{
+	set := &entity.SubjectSet{
 		ServiceID:            service.ID,
 		RelationDefinitionID: definition.ID,
 		Namespace:            service.Namespace,
 		Object:               req.Object,
 		Relation:             definition.Relation,
-		SubjectID:            req.SubjectID,
+		Description:          req.Description,
 		BaseCreatedUpdated: entity.BaseCreatedUpdated{
 			CreatedBy: req.CreatedBy,
 			UpdatedBy: req.CreatedBy,
 		},
 	}
-	tuple, infraErr = s.subjectRelationTupleRepo.Create(ctx, tuple)
+	set, infraErr = s.subjectSetRepo.Create(ctx, set)
 	if infraErr != nil {
 		return nil, errt.DomainTransformerInstance().InfraErrToDomainErr(infraErr)
 	}
 
-	return tuple, nil
+	return set, nil
 }

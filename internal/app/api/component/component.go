@@ -34,6 +34,7 @@ func InitComponents() error {
 	repo.InitServiceRepository(db.Instance())
 	repo.InitRelationDefinitionRepository(db.Instance())
 	repo.InitSubjectRelationTupleRepository(db.Instance())
+	repo.InitSubjectSetRepository(db.Instance())
 
 	// Service
 	service.InitServiceService(repo.ServiceRepositoryInstance())
@@ -41,6 +42,11 @@ func InitComponents() error {
 		repo.ServiceRepositoryInstance(),
 		repo.RelationDefinitionRepositoryInstance(),
 		repo.SubjectRelationTupleRepositoryInstance(),
+	)
+	service.InitSubjectSetService(
+		repo.ServiceRepositoryInstance(),
+		repo.RelationDefinitionRepositoryInstance(),
+		repo.SubjectSetRepositoryInstance(),
 	)
 
 	return nil

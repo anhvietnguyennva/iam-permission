@@ -52,7 +52,7 @@ func (r *ServiceRepository) Create(ctx context.Context, service *entity.Service)
 	serviceModel := new(postgres.Service).FromEntity(service)
 	err := r.db.WithContext(ctx).Transaction(func(tx *gorm.DB) error {
 		// create service
-		if err := tx.Create(&serviceModel).Error; err != nil {
+		if err := tx.Create(serviceModel).Error; err != nil {
 			infraErr := errors.NewInfraErrorDBInsert(err, constant.FieldService)
 			if strings.Contains(err.Error(), "duplicate key value violates unique constraint") {
 				infraErr = errors.NewInfraErrorDBDuplicatedKey(err, constant.FieldService)

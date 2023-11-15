@@ -35,6 +35,19 @@ func ServiceRepositoryInstance() *ServiceRepository {
 	return serviceRepo
 }
 
+func (r *ServiceRepository) GetByNamespace(ctx context.Context, namespace string) (*entity.Service, *errors.InfraError) {
+	var model postgres.Service
+	if err := r.db.WithContext(ctx).Where("namespace = ?", namespace).First(&model).Error; err != nil {
+		infraErr := errors.NewInfraErrorDBSelect(err, constant.FieldService)
+		if e.Is(err, gorm.ErrRecordNotFound) {
+			infraErr = errors.NewInfraErrorDBNotFound(err, constant.FieldService)
+		}
+		logger.Error(ctx, infraErr)
+		return nil, infraErr
+	}
+	return model.ToEntity(), nil
+}
+
 func (r *ServiceRepository) Create(ctx context.Context, service *entity.Service) (*entity.Service, *errors.InfraError) {
 	serviceModel := new(postgres.Service).FromEntity(service)
 	err := r.db.WithContext(ctx).Transaction(func(tx *gorm.DB) error {
@@ -120,7 +133,7 @@ func (r *ServiceRepository) Create(ctx context.Context, service *entity.Service)
 		}
 		defaultRelationConfigurations := []*postgres.RelationConfiguration{configurationViewerEditor, configurationEditorOwner}
 		if err := tx.CreateInBatches(defaultRelationConfigurations, constant.DefaultDBBatchSize).Error; err != nil {
-			return errors.NewInfraErrorDBInsert(err, constant.FieldRelationDefinition)
+			return errors.NewInfraErrorDBInsert(err, constant.FieldRelationConfiguration)
 		}
 
 		return nil

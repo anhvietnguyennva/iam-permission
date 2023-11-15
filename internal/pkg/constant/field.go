@@ -4,4 +4,5 @@ const (
 	FieldService               = "service"
 	FieldRelationDefinition    = "relationDefinition"
 	FieldRelationConfiguration = "relationConfiguration"
+	FieldSubjectRelationTuple  = "subjectRelationTuple"
 )

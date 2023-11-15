@@ -12,6 +12,7 @@ const (
 	mockValidBearerAccessToken   = "Bearer valid"
 	mockInvalidBearerAccessToken = "Bearer invalid"
 	mockSubject                  = "3aa6ae4f-2f4b-4ef9-a6cb-6a33c52b98f5"
+	exceedLength255String        = "hbmijewagbtraqgvvaqgwcujcgwgjzxxmtpcunkgckynxrkkctwnefppqztjijrvhzyparajjcjvtfykfkvawgnyvibnbmrnifugmyqvygvyfyykvythgpxfupnjxknnaqdjqcrkqpwkdpqihkjzxrqbybedmfanuzcbttxcevyyiwmmiwuurdwqrbdqwtfajytjackbhtkdaavmhwhidwfimqxipvkjgwemyqmwcvrhthreicruwccjgdtbjzkr"
 )
 
 func mockAccessToken() *entity.AccessToken {

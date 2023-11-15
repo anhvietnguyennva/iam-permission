@@ -12,24 +12,24 @@ import (
 	"iam-permission/pkg/context"
 )
 
-type serviceAPI struct {
-	serviceService service.IServiceService
+type subjectRelationTupleAPI struct {
+	subjectRelationTupleService service.ISubjectRelationTupleService
 }
 
-func newServiceAPI() *serviceAPI {
-	return &serviceAPI{
-		serviceService: service.ServiceServiceInstance(),
+func newSubjectRelationTupleAPI() *subjectRelationTupleAPI {
+	return &subjectRelationTupleAPI{
+		subjectRelationTupleService: service.SubjectRelationTupleServiceInstance(),
 	}
 }
 
-func (a *serviceAPI) SetupAdminRoute(rg *gin.RouterGroup) {
-	rg.POST("", middleware.RequireBearerAuthorizationJWT, a.createService)
+func (a *subjectRelationTupleAPI) SetupAdminRoute(rg *gin.RouterGroup) {
+	rg.POST("", middleware.RequireBearerAuthorizationJWT, a.createSubjectRelationTuple)
 }
 
-func (a *serviceAPI) createService(c *gin.Context) {
+func (a *subjectRelationTupleAPI) createSubjectRelationTuple(c *gin.Context) {
 	ctx := context.New(c)
 
-	var req dto.CreateServiceRequest
+	var req dto.CreateSubjectRelationTupleReq
 	if err := c.ShouldBindJSON(&req); err != nil {
 		apiErr := errt.RestTransformerInstance().ValidationErrToRestAPIErr(err)
 		dto.RespondError(c, apiErr)
@@ -41,11 +41,11 @@ func (a *serviceAPI) createService(c *gin.Context) {
 	voReq := req.ToValueObject()
 	voReq.CreatedBy = accessToken.Subject
 
-	s, domainErr := a.serviceService.Create(ctx, voReq)
+	tuple, domainErr := a.subjectRelationTupleService.Create(ctx, voReq)
 	if domainErr != nil {
 		apiErr := errt.RestTransformerInstance().DomainErrToRestAPIErr(domainErr)
 		dto.RespondError(c, apiErr)
 		return
 	}
-	dto.RespondSuccess(c, new(dto.CreateServiceResponse).FromEntity(s))
+	dto.RespondSuccess(c, new(dto.CreateSubjectRelationTupleRes).FromEntity(tuple))
 }

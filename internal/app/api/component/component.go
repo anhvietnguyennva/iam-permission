@@ -32,9 +32,16 @@ func InitComponents() error {
 
 	// Repo
 	repo.InitServiceRepository(db.Instance())
+	repo.InitRelationDefinitionRepository(db.Instance())
+	repo.InitSubjectRelationTupleRepository(db.Instance())
 
 	// Service
 	service.InitServiceService(repo.ServiceRepositoryInstance())
+	service.InitSubjectRelationTupleService(
+		repo.ServiceRepositoryInstance(),
+		repo.RelationDefinitionRepositoryInstance(),
+		repo.SubjectRelationTupleRepositoryInstance(),
+	)
 
 	return nil
 }

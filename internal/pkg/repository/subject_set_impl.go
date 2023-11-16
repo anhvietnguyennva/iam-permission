@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	e "errors"
 	"strings"
 
 	"github.com/anhvietnguyennva/go-error/pkg/errors"
@@ -11,6 +12,7 @@ import (
 	"iam-permission/internal/pkg/entity"
 	"iam-permission/internal/pkg/lock"
 	"iam-permission/internal/pkg/repository/postgres"
+	"iam-permission/internal/pkg/util/logger"
 )
 
 type SubjectSetRepository struct {
@@ -43,5 +45,22 @@ func (r *SubjectSetRepository) Create(ctx context.Context, set *entity.SubjectSe
 		return nil, infraErr
 	}
 
+	return model.ToEntity(), nil
+}
+
+func (r *SubjectSetRepository) GetByNamespaceAndObjectAndRelation(ctx context.Context, namespace string, object string, relation string) (*entity.SubjectSet, *errors.InfraError) {
+	var model postgres.SubjectSet
+	if err := r.db.WithContext(ctx).
+		Where("namespace = ?", namespace).
+		Where("object = ?", object).
+		Where("relation = ?", relation).
+		First(&model).Error; err != nil {
+		infraErr := errors.NewInfraErrorDBSelect(err, constant.FieldSubjectSet)
+		if e.Is(err, gorm.ErrRecordNotFound) {
+			infraErr = errors.NewInfraErrorDBNotFound(err, constant.FieldSubjectSet)
+		}
+		logger.Error(ctx, infraErr)
+		return nil, infraErr
+	}
 	return model.ToEntity(), nil
 }

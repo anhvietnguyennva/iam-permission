@@ -73,6 +73,7 @@ CREATE TABLE subject_sets
     updated_at             bigint
 );
 CREATE UNIQUE INDEX subject_sets_unique_namespace_object_relation ON subject_sets (LOWER(namespace), LOWER(object), LOWER(relation));
+CREATE INDEX subject_sets_namespace_object_relation ON subject_sets (namespace, object, relation);
 
 CREATE TABLE subject_set_relation_tuples
 (

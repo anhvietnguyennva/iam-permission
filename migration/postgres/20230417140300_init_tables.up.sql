@@ -41,6 +41,7 @@ CREATE TABLE relation_configurations
     updated_at                    bigint,
     UNIQUE (service_id, parent_relation_definition_id, child_relation_definition_id)
 );
+CREATE INDEX relation_configurations_namespace_child_relation ON relation_configurations (namespace, parent_relation);
 
 CREATE TABLE subject_relation_tuples
 (
@@ -57,6 +58,7 @@ CREATE TABLE subject_relation_tuples
     updated_at             bigint
 );
 CREATE UNIQUE INDEX subject_relation_tuples_unique_namespace_object_relation_subject_id ON subject_relation_tuples (LOWER(namespace), LOWER(object), LOWER(relation), subject_id);
+CREATE INDEX subject_relation_tuples_namespace_object_relation_subject_id ON subject_relation_tuples (namespace, object, relation, subject_id);
 
 CREATE TABLE subject_sets
 (
@@ -93,3 +95,4 @@ CREATE TABLE subject_set_relation_tuples
     updated_at             bigint
 );
 CREATE UNIQUE INDEX subject_set_relation_tuples_unique_namespace_object_relation_subject_set_namespace_subject_set_object_subject_set_relation ON subject_set_relation_tuples (LOWER(namespace), LOWER(object), LOWER(relation), LOWER(subject_set_namespace), LOWER(subject_set_object), LOWER(subject_set_relation));
+CREATE INDEX subject_set_relation_tuples_namespace_object_relation_subject_set_namespace_subject_set_object_subject_set_relation ON subject_set_relation_tuples (namespace, object, relation, subject_set_namespace, subject_set_object, subject_set_relation);

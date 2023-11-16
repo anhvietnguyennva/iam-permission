@@ -13,6 +13,7 @@ func New() *APIv1 {
 }
 
 func (a APIv1) RegisterAPIs(rg *gin.RouterGroup) {
+	common.RegisterAPI(rg, newPermissionAPI(), "/permissions")
 }
 
 func (a APIv1) RegisterAdminAPIs(rg *gin.RouterGroup) {

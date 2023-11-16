@@ -10,4 +10,6 @@ import (
 
 type IRelationDefinitionRepository interface {
 	GetByNamespaceAndRelation(ctx context.Context, namespace string, relation string) (*entity.RelationDefinition, *errors.InfraError)
+
+	Create(ctx context.Context, definition *entity.RelationDefinition) (*entity.RelationDefinition, *errors.InfraError)
 }
